@@ -1,0 +1,122 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+ font-family: sans-serif;
+}
+body, html {
+    height: 100%;
+}
+#nav-bar{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.navbar-main{
+    background-image: linear-gradient(to right, #05395c,#054e80) !important;
+}
+.navbar-brand img{
+    height: 60px;
+    padding-left: 20px;
+}
+
+.navbar-nav li{
+
+    padding: 0 10px;
+}
+.navbar-nav li a{
+    color: #fff !important;
+    font-weight: 600;
+}
+.fa-bars{
+    color: #fff;
+    font-size: 30px !important;
+}
+#banner{
+  
+    background-image: url('/img/banner.png');
+    
+    height: 500px;
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  padding-top:7%;
+  padding-left: 5%;
+}
+#banner-title{
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    font-size: 45px;
+    line-height: 1.1em;
+    color: #171d58;
+}
+#banner-subtitle{
+
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 2.1em;
+}
+.banner-items{
+
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.9em;
+}
+.services{
+    background-image: linear-gradient(to right, #05395c,#054e80) !important;
+    color: #fff;
+    margin-top: -30px;  
+}
+.fa-file-text-o{
+    font-size: 40px !important;
+}
+.fa-bullhorn{
+    font-size: 40px !important;  
+}
+#service-subtitle{
+
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 2.1em;
+}
+.latest{
+    margin-top: 70px;
+    background-color: #fff;
+}
+
+#latest-title{
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 1.1em;
+    color: #171d58;
+    padding-top: 40px;
+}
+.header{
+    height: 20%;
+    background-image: linear-gradient(to right, #05395c,#054e80) !important;
+}
+#header-body{
+    padding-top: 3%;
+    padding-bottom: 6%;
+}
+
+#header-title{
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    font-size: 50px;
+    line-height: 1.1em;
+    color: #fff   
+}
+#header-subtitle{
+        font-size: 18px;
+        color: #fff;
+}
+
+.main_body{
+
+    margin-top: 40px;
+    margin-bottom: 40px;
+}

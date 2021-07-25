@@ -9,7 +9,7 @@ class prazitemController extends Controller
 {
     private $invoice;
 
-    public function __construct(praz)
+    public function __construct()
     {
         
     }

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\prazapplicationRepository;
 use Illuminate\Http\Request;
 
 class prazitemController extends Controller
 {
     private $invoice;
-
-    public function __construct()
+     private $praz;
+    public function __construct(prazapplicationRepository $praz)
     {
-        
+     $this->praz   = $praz;   
     }
     public function index()
     {

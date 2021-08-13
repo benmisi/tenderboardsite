@@ -48,6 +48,9 @@ a:focus {
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
 }
+.btn-primary{
+    background-color: #05395c !important;
+   }
 
 /* ---------------------------------------------------
     SIDEBAR STYLE

@@ -18,4 +18,15 @@ class onlinepayment extends Model
     public function application(){
         return $this->hasOne(myapplications::class,'invoicenumber','invoicenumber');
     }
+
+    public function prazapplication(){
+        return $this->hasOne(prazapplication::class,'invoicenumber','invoicenumber');
+    }
+    public function vendorapplication(){
+        return $this->hasOne(vendorapplication::class,'invoicenumber','invoicenumber');
+    }
+
+    public function subscription(){
+        return $this->hasOne(subscription::class,'invoicenumber','invoicenumber');
+    }
 }

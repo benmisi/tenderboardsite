@@ -6,14 +6,10 @@ use Illuminate\View\Component;
 
 class header extends Component
 {
-    /**
-     * Create a new component instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $subscription;
+    public function __construct($subscription)
     {
-        //
+        $this->subscription = $subscription;
     }
 
     /**

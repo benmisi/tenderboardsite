@@ -1,17 +1,23 @@
 <?php
 
+
 use App\Http\Controllers\user\companyregistrationController;
+use App\Http\Controllers\user\directoryController;
+use App\Http\Controllers\user\directoryproductController;
 use App\Http\Controllers\user\documentController;
 use App\Http\Controllers\user\invoiceController;
 use App\Http\Controllers\user\paynowController;
 use App\Http\Controllers\user\popController;
 use App\Http\Controllers\user\prazController;
 use App\Http\Controllers\user\prazitemController;
+use App\Http\Controllers\user\procurementnoticeController as AppProcurementnoticeController;
 use App\Http\Controllers\user\reports\invoicesController;
 use App\Http\Controllers\user\reports\paynowController as AppPaynowController;
 use App\Http\Controllers\user\reports\receiptsController;
 use App\Http\Controllers\user\reports\transfersController;
+use App\Http\Controllers\user\subscriptionController;
 use App\Http\Controllers\user\trackController;
+use App\Http\Controllers\vendorController;
 use App\Http\Controllers\welcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,12 +52,17 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/Company-service',companyregistrationController::class);
 Route::resource('/praz-service',prazController::class);
+Route::resource('/vendor-registrations',vendorController::class);
 Route::resource('/invoicing',invoiceController::class);
 Route::resource('/uploadpop',popController::class);
 Route::resource('/documents',documentController::class);
 Route::resource('/tracking',trackController::class);
 Route::resource('/mobilepayments',paynowController::class);
 Route::resource('/praz-item',prazitemController::class);
+Route::resource('/procurement-notice',AppProcurementnoticeController::class);
+Route::resource('/directory',directoryController::class);
+Route::resource('/directory_products',directoryproductController::class);
+Route::resource('/subscription',subscriptionController::class);
 Route::get('/reports/invoices',[invoicesController::class,'index'])->name('report-invoices');
 Route::get('/reports/onlinepayments',[AppPaynowController::class,'index'])->name('report-paynow');
 Route::get('/reports/transfers',[transfersController::class,'index'])->name('report-transfers');

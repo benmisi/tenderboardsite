@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class prazitemController extends Controller
 {
     private $invoice;
-     private $praz;
+    private $praz;
     public function __construct(prazapplicationRepository $praz)
     {
      $this->praz   = $praz;   
@@ -19,67 +19,32 @@ class prazitemController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
+   public function edit($id){
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+     return $this->praz->removeItem($id);
+   }
+
+   
     public function store(Request $request)
     {
-        //
+         $request->validate(['selection'=>'required']);
+         return $this->praz->addItem($request);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show($id)
     {
-        //
+        $application = $this->praz->getItems($id);
+        $steps[] = array('name'=>'Company Details','status'=>"completed");
+       $steps[] = array('name'=>'Category Selection','status'=>"completed");
+       $steps[] = array('name'=>'Categories Confirmation','status'=>"active");
+       $steps[] = array('name'=>'Invoice Settlement','status'=>"pending");
+       $steps[] = array('name'=>'Finish','status'=>"pending");
+       return view('praz.confirm',compact('application','steps'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy($id)
     {
         //

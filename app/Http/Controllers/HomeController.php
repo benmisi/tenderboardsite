@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\services;
+use App\Repositories\subscriptionRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private $subscription;
+
+
+    public function __construct(subscriptionRepository $subscription)
     {
+        $this->subscription = $subscription;
         $this->middleware('auth');
     }
 
@@ -28,6 +28,7 @@ class HomeController extends Controller
         $services = services::with(['applications'=>function($query){
             $query->where('user_id','=',Auth::user()->id);
         }])->get();
-        return view('home',compact('services'));
+        $subscription = $this->subscription->get_my_subscription();
+        return view('home',compact('services','subscription'));
     }
 }

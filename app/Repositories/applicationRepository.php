@@ -11,11 +11,13 @@ class applicationRepository{
 
     private $helper;
     private $invoice;
+    private $service;
 
-    public function __construct(helperRepository $helper,invoiceRepository $invoice)
+    public function __construct(helperRepository $helper,invoiceRepository $invoice,serviceRepository $service)
     {
         $this->helper = $helper;
         $this->invoice = $invoice;
+        $this->service = $service;
     }
 
     public function get_all_applications(){
@@ -24,6 +26,10 @@ class applicationRepository{
 
     public function get_applications_by_user($id){
         return myapplications::with('user','service')->whereuser_id($id)->get();   
+    }
+
+    public function get_application_id($id){
+        return myapplications::with('user','service')->whereid($id)->first();  
     }
 
     public function create_application(Request $request){
@@ -61,7 +67,8 @@ class applicationRepository{
        if(is_null($pending_invoice))
         {
        myapplications::create(['user_id'=>Auth::user()->id,'service_id'=>$request->id,'invoicenumber'=>$invoicenumber,'fields->names'=>$fieldsarray,'fields->directors'=>$directorsarray]);
-       $this->invoice->create_invoice($invoicenumber,Auth::user()->id,'Company Registration',$request->id);
+      $price = $this->service->getPrice($request->id,'LOCAL'); 
+      $this->invoice->create_invoice($invoicenumber,Auth::user()->id,'Company Registration',$price->amount,$price->currency,$request->id);
         return redirect()->route('invoicing.index')->with('statusSuccess','Please Settle Invoice To Proceed with application');
         }else{
             return redirect()->route('invoicing.index')->with('errorSuccess','Please Settle Invoice To Proceed with application');

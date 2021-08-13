@@ -20,7 +20,9 @@ body, html {
     height: 60px;
     padding-left: 20px;
 }
-
+.btn-primary{
+ background-color: linear-gradient(to right, #05395c,#054e80) !important;
+}
 .navbar-nav li{
 
     padding: 0 10px;

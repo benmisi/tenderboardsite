@@ -28,6 +28,7 @@
             <div class="sidebar-header">
                 <img src="/img/logo2.png"/>
             </div>
+            
 
             <ul class="list-unstyled components">
                 <p class="sidebar-title">Tender Notice Board</p>
@@ -36,8 +37,27 @@
                     <a href="{{route('home')}}">Dashboard</a>
                 </li>
                 <li>
-                    <a href="#">Adverts</a>
+                    <a href="{{route('praz-service.index')}}">PRAZ registrations</a>
                 </li>
+                <li>
+                    <a href="{{route('Company-service.index')}}">Company Deed registration</a>
+                </li>
+                <li>
+                    <a href="{{route('vendor-registrations.index')}}">Vendor registration</a>
+                </li>
+                <li>
+                    <a href="{{route('directory.index')}}">My Directory</a>
+                </li>
+                <li>
+                    <a href="{{route('procurement-notice.index')}}">RFQs & Tenders</a>
+                </li>
+               
+            </ul>
+            <ul class="list-unstyled components">
+                <p class="sidebar-title">Reports</p>
+             
+               
+              
                 <li>
                     <a href="{{route('report-invoices')}}">Invoices</a>
                 </li>
@@ -49,17 +69,7 @@
                 </li>
             </ul>
 
-            <ul class="list-unstyled components">
-                <p class="sidebar-subtitle">Other Services</p>
-             
-                <li>
-                    <a href="#">Tenders & RFQs</a>
-                </li>
-                <li>
-                    <a href="#">Companies Directory</a>
-                </li>
-               
-            </ul>
+         
 
            
         </nav>
@@ -81,18 +91,25 @@
 
                     
                         <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                          <button class="btn btn-sm btn-outline-light">
-                              <i class="fa fa-bell"></i>
-                              <span class="badge badge-success"  style="float:right;margin-bottom:-15px;font-size:10px">4</span>
-                          </button>
-                        </li>  
-                        <li class="nav-item">
-                          <button class="btn btn-sm btn-outline-light">
-                              <i class="fa fa-envelope"></i>
-                              <span class="badge badge-danger" style="float:right;margin-bottom:-15px;margin-left:4px;font-size:10px">4</span>
-                          </button>
-                        </li>   
+                          
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-sm btn-outline-light"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell"></i>
+                              <span class="badge badge-success"  style="float:right;margin-bottom:-15px;font-size:10px">{{count(Auth::user()->notifications)}}</span>
+                 
+                        </button>
+                          @if (count(Auth::user()->notifications)>0)
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                           @foreach (Auth::user()->notifications as $notification)
+                           <a class="dropdown-item" href="#">$notification->message</a>
+                            <div class="dropdown-divider"></div>
+                           @endforeach
+                           
+                           
+                            </div>
+                          @endif
+                           
+                      </li>   
                         <li class="nav-item dropdown">
                             <a class="nav-link mobile-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             {{ Auth::user()->name }} {{ Auth::user()->surname }}

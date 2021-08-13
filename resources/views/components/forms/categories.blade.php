@@ -10,7 +10,7 @@
              @empty
                  
              @endforelse
-    
+     
         </select>
 
         @error($name)

@@ -1,5 +1,5 @@
 <div>
-<button type="button" class="btn btn-{{$color}}" data-toggle="modal" data-target="#{{$modalname}}">
+<button type="button" class="btn btn-block btn-{{$color}}" data-toggle="modal" data-target="#{{$modalname}}">
   {{$label}}
 </button>
 

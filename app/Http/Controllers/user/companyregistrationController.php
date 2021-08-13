@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\companytype;
 use App\Repositories\applicationRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class companyregistrationController extends Controller
 {
@@ -17,7 +18,8 @@ class companyregistrationController extends Controller
     }
     public function index()
     {
-       
+        $applications = $this->applications->get_applications_by_user(Auth::user()->id);
+        return view('user.companyregistration.index',compact('applications'));
     }
 
     /**
@@ -27,7 +29,12 @@ class companyregistrationController extends Controller
      */
     public function create()
     {
-     
+        $id = 1;
+        $companytypes = companytype::get();  
+        $steps[] = array('name'=>'Company Details','status'=>"active");
+        $steps[] = array('name'=>'Invoice Settlement','status'=>"pending");
+        $steps[] = array('name'=>'Finish','status'=>"pending");
+        return view('user.companyregistration.add',compact('companytypes','id','steps'));
     }
 
     /**
@@ -52,25 +59,8 @@ class companyregistrationController extends Controller
      */
     public function show($id)
     {
-        $companytypes = companytype::get();
-
-        if($id==1)
-        {
-        
-         
-        $steps[] = array('name'=>'Company Details','status'=>"active");
-        $steps[] = array('name'=>'Invoice Settlement','status'=>"pending");
-        $steps[] = array('name'=>'Finish','status'=>"pending");
-        return view('services.company',compact('companytypes','id','steps'));
-        }elseif ($id ==2) {
-            $steps[] = array('name'=>'Company Details','status'=>"active");
-            $steps[] = array('name'=>'Category Selection','status'=>"pending");
-            $steps[] = array('name'=>'Invoice Settlement','status'=>"pending");
-            $steps[] = array('name'=>'Finish','status'=>"pending");
-            $options[] =  array('name'=>'YES','id'=>'Y');
-            $options[] =  array('name'=>'NO','id'=>'N');
-                     return view('services.praz',compact('id','steps','options','companytypes'));
-        }
+       $application = $this->applications->get_application_id($id);
+       return view('user.companyregistration.show',compact('application'));
     }
 
     /**

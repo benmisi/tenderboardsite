@@ -1,10 +1,13 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\administrator;
 use App\Models\onlinepayment;
 use App\Models\receipts;
+use App\Notifications\adminServiceAlert;
 use Illuminate\Http\Request;
 use App\Repositories\invoiceRepository;
+use Database\Seeders\adminAccount;
 use Illuminate\Support\Facades\Auth;
 
 class onlinepaymentsRepository{
@@ -55,7 +58,10 @@ class onlinepaymentsRepository{
 
     public function confirm($id){
         $online = onlinepayment::whereid($id)->whereuser_id(Auth::user()->id)->wherestatus('PENDING')->first();
+         $administator = administrator::first();
+        
         if(!is_null($online)){
+   
           if(!receipts::where(['source_id'=>$online->id,'source'=>'onlinepayment'])->exists()){
               
               $paynow = $this->paynow->mobilepayments();
@@ -68,20 +74,56 @@ class onlinepaymentsRepository{
                     $online->status = $status->status();
                     $online->save();
                     $receiptnumber = $this->helper->get_receipt_number($online->user_id);
-                    if(!is_null($online->invoice)){
-                        $online->invoice->status ="PAID";
-                        $online->invoice->save();
-                    }
-                    if(!is_null($online->application)){
-                        $online->application->status ='IN-PROGRESS';
-                        $online->application->save();
-                    } 
+                  
 
                     receipts::create(['invoicenumber'=>$online->invoicenumber,'receiptnumber'=>$receiptnumber,'source'=>'onlinepayment','source_id'=>$online->id,'currency'=>$online->invoice->currency,'amount'=>$online->amount]);
-                    return redirect()->route('tracking.show',$online->application->id)->with('statusSuccess','Payment Successfully completed your application is now being  proceed. We will notify you of the progress via email');
+                    $invoice = $this->invoice->get_pending_user($online->user_id);
+                    $receipted = $invoice->receipts->sum('amount');
+                    if($invoice->amount <= $receipted)
+                    {
+                    if(!is_null($online->invoice)){
+                      $online->invoice->status ="PAID";
+                      $online->invoice->save();
+                  }
+                  $id=0;
+                  if(!is_null($online->application)){
+                      $online->application->status ='IN-PROGRESS';
+                      $online->application->save();
+                      $administator->notify(new adminServiceAlert("Company Registration","IN-PROGRESS"));
+                      return redirect()->route('praz-service.index')->with('statusSuccess','Payment Successfully completed your application is now being  proceed. We will notify you of the progress via email');
+                     
+                  }
+                  if(!is_null($online->prazapplication)){
+                    $online->prazapplication->status ='IN-PROGRESS';
+                    $online->prazapplication->save();
+                    $administator->notify(new adminServiceAlert("PRAZ Registration","IN-PROGRESS"));
+                      return redirect()->route('praz-service.index')->with('statusSuccess','Payment Successfully completed your application is now being  proceed. We will notify you of the progress via email');
 
+                  }
+                  if(!is_null($online->vendorapplication)){
+                    $online->vendorapplication->status ='IN-PROGRESS';                   
+                      $online->vendorapplication->save();
+                      $administator->notify(new adminServiceAlert("Vendor Registration","IN-PROGRESS"));
+                      return redirect()->route('praz-service.index')->with('statusSuccess','Payment Successfully completed your application is now being  proceed. We will notify you of the progress via email');
+
+                  }
+
+                if(!is_null($online->subscription)){
+                  $online->subscription->status ='ACTIVE';                   
+                      $online->subscription->save();
+                      $administator->notify(new adminServiceAlert("Subscribed","ACTIVE"));
+                      return redirect()->route('praz-service.index')->with('statusSuccess','Payment was Successfully. Your Subscription is now active');
+
+                }
+                  
                 }else{
-                    return redirect()->route('home')->with('statusError','Your online payment attempt failed');   
+                  return redirect()->route('invoicing.index')->with('statusSuccess','Payment Successfully processed please clear balance to complete registration');
+
+                }
+                  
+                    
+                }else{
+                    return redirect()->back()->with('statusError','Your online payment attempt failed');   
                 }
 
               }else{

@@ -94,14 +94,34 @@ class prazapplicationRepository{
     }
 
     public function addItem(Request $request){
-     if(!prazapplication_items::where(['user_id'=>$request->user()->id,'prazapplication_id'=>$request->id,'prazcategory_id'=>$request->category,'regyear'=>$request->regyear])->exists()){
-        prazapplication_items::create(['user_id'=>$request->user()->id,'prazapplication_id'=>$request->id,'prazcategory_id'=>$request->category,'regyear'=>$request->regyear]);
-        return redirect()->route('praz-service.show',$request->id)->with('statusSuccess','Item Successfully Added'); 
-     }else{
-         return redirect()->back()->with('statusError','Category already added');
-     }
+
+        $selection = $request->selection;
+        $application = prazapplication::whereid($request->id)->first();
+        if(!is_null($application))
+        {
+            for($i=0 ;$i<count($selection); $i++) 
+            {
+            if(!prazapplication_items::where(['user_id'=>$request->user()->id,'prazapplication_id'=>$request->id,'prazcategory_id'=>$selection[$i],'regyear'=>$request->regyear])->exists())
+            {
+                $price = $this->service->getPrice($application->service_id,$application->locality);
+                prazapplication_items::create(['user_id'=>$request->user()->id,'prazapplication_id'=>$request->id,'prazcategory_id'=>$selection[$i],'regyear'=>$request->regyear,'currency'=>$price->currency,"amount"=>$price->amount]);
+              
+            }
+            }
+
+            return redirect()->route('praz-item.show',$application->id)->with('statusSuccess','Categories Successfully Added Please settle Invoice');
+
+        }else{
+            return redirect()->back()->with('statusSuccess','Application does not exist');
+        }
+
+
+    
     }
 
+    public function getItems($id){
+        return prazapplication::with('items.category')->whereid($id)->first();
+    }
     public function removeItem($id){
      $item =  prazapplication_items::whereid($id)->whereuser_id(Auth::user()->id)->first();
        if(!is_null($item)){
@@ -122,11 +142,11 @@ class prazapplicationRepository{
            
               $price = $this->service->getPrice($application->service_id,$application->locality);
              $totalprice = count($application->items) * $price->amount;
-          $this->invoice->create_invoice($application->invoicenumber,$application->user_id,'prazapplication',$totalprice,$price->currency);
-          return redirect()->route('invoicing.show',$application->invoicenumber);
+          $this->invoice->create_invoice($application->invoicenumber,$application->user_id,'prazapplication',$totalprice,$price->currency,$application->service_id);
+          return redirect()->route('invoicing.index')->with('statusSuccess','Invoice successfully Generated Please settled to complete registration');
          }else{
 
-            return redirect()->route('invoicing.show',$application->invoicenumber);
+            return redirect()->route('invoicing.index')->with('statusSuccess','Invoice successfully Generated Please settled to complete registration');
          }
          
     }

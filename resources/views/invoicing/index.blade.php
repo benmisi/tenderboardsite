@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+<x-alert/>
  <x-wizard :steps="$steps"/>
  <div class="row">
      <div class="col-md-8 offset-md-2">
@@ -40,6 +41,8 @@
                 </table>
                 <div class="row">
                     <div class="col"><a href="{{route('invoicing.show',$invoice->id)}}" class="btn btn-block btn-secondary">Download invoice</a></div>
+                </div>
+                <div class="row mt-3">
                     <div class="col">
                     <x-forms.modal title="Paynow" label="Use Paynow" color="primary"  modalname="paynow">
                         <form method="POST" action="{{ route('mobilepayments.store') }}">
@@ -55,6 +58,9 @@
                         </form>
                         </x-forms.modal>
                     </div>
+                </div>
+                <div class="row mt-3">
+
                     <div class="col">
                         <x-forms.modal title="Upload Proof of Payment" label="Upload POP" color="success" modalname="pop">
                         <form method="POST" action="{{ route('uploadpop.store') }}" enctype="multipart/form-data">
@@ -72,6 +78,7 @@
                         </x-forms.modal>
 
                         </div>
+                </div>
                 </div>
              </div>
          </div>

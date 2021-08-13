@@ -23,6 +23,18 @@ class invoices extends Model
         return $this->hasOne(myapplications::class,'invoicenumber','invoicenumber');
     }
 
+    public function prazapplication(){
+        return $this->hasOne(prazapplication::class,'invoicenumber','invoicenumber');
+    }
+
+    public function vendorapplication(){
+        return $this->hasOne(vendorapplication::class,'invoicenumber','invoicenumber');
+    }
+
+    public function subscription(){
+        return $this->hasOne(subscription::class,'invoicenumber','invoicenumber');
+    }
+
     public function user(){
         return $this->hasOne(User::class,'id','user_id');
     }

@@ -24,4 +24,8 @@ class prazapplication extends Model
     {
         return $this->hasMany(prazapplication_items::class,'prazapplication_id','id');
     }
+
+    public function receipts(){
+        return $this->hasMany(receipts::class,'invoicenumber','invoicenumber');
+    }
 }

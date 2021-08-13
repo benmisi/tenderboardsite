@@ -45,4 +45,16 @@ class User extends Authenticatable
     public function company(){
         return $this->belongsTo(company::class);
     }
+
+    public function procurements(){
+        return $this->hasMany(procurement::class,'user_id','id');
+    }
+
+    public function directory(){
+        return $this->hasOne(directory::class,'user_id','id');
+    }
+
+    public function subscription(){
+        return $this->hasOne(subscription::class,'user_id','id');
+    }
 }

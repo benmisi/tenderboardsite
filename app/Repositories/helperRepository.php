@@ -2,7 +2,10 @@
 namespace App\Repositories;
 
 use App\Models\invoicenumber;
+use App\Models\subscription;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class helperRepository{
     public function get_invoice_number($id){
         $number = invoicenumber::first();
@@ -18,6 +21,10 @@ class helperRepository{
         $number->invoicenumber = $number->invoicenumber+1;
         $number->save();
         return $inv;
+    }
+
+    public function get_current_subscription(){
+        $subscription = subscription::whereuser_id(Auth::user()->id)->orderBy('id','desc')->first();
     }
 
 

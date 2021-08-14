@@ -51,10 +51,10 @@
 
             <tr>
                 
-                 <td>{{$notice->title}}</td>
+            <td>{{$notice->title}}</td>
                  <td>{{$notice->closing_date}}</td>
-                 <td>{{$notice->type}}</td>
-                 <td>{{$notice->category->name}}</td>
+                 <td>{{$notice->procurementtype->name}}</td>
+                 <td>{{$notice->categorylist->name}}</td>
                  <td>
                      <button class="btn btn-sm btn-primary">View</button>
                  </td>

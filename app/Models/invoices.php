@@ -19,6 +19,10 @@ class invoices extends Model
         return $this->hasMany(receipts::class,'invoicenumber','invoicenumber');
     }
 
+    public function transfer(){
+        return $this->hasOne(transfers::class,'invoice_id','id');
+    }
+
     public function application(){
         return $this->hasOne(myapplications::class,'invoicenumber','invoicenumber');
     }

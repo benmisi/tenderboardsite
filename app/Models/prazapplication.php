@@ -28,4 +28,8 @@ class prazapplication extends Model
     public function receipts(){
         return $this->hasMany(receipts::class,'invoicenumber','invoicenumber');
     }
+
+    public function user(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
 }

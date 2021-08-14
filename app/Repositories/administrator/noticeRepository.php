@@ -1,21 +1,14 @@
 <?php
-namespace App\Repositories;
+namespace App\Repositories\administrator;
 
 use App\Models\procurement;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
-class procurementnoticeRepository{
+class noticeRepository{
 
-    public function getAll(){
-        return procurement::with('categorylist','procurementtype')->whereNotIn('user_id',[Auth::user()->id])->get();
-
+    public function getList(){
+        return procurement::with('user','categorylist','procurementtype')->orderBy('id','desc')->get();
     }
 
-    public function getPublishedList(){
-        return procurement::with('categorylist','procurementtype')->wherestatus('PUBLIC')->orderBy('id','desc')->get();    
-    }
     public function create(Request $request){
 
         $path = $request->file('filename')->store('notices','publicFile');
@@ -41,13 +34,6 @@ class procurementnoticeRepository{
 
     public function getnotice($uuid){
         return procurement::with('categorylist','procurementtype')->whereuuid($uuid)->first();
-    }
-
-    public function delete($uuid){
-        $procurement = procurement::whereuuid($uuid)->first();
-        $procurement->delete();
-        return redirect()->route('home')->with('statusSuccess','Notice successfully Deleted');
-
     }
 
 }

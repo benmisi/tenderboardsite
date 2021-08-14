@@ -1,28 +1,24 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<section  class="header">
-    <div class="container">
-     <div class="row" id="header-body">
-         <div class="col-md-6 offset-md-3 text-center">
-             <div id="header-title">Procurement Notices</div>
-             <div id="header-subtitle">This page show list of procurement notices</div>
-         </div>
-     </div>
-    </div>
-    
-    
-</section>
-<section class="content-body">
-    <div class="container">
-    <div class="card">
-        <div class="card-body">
-       
-          
+<div class="container-fluid">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Procurement Notices</li>
+  </ol>
+</nav>
+    <x-alert/>
+  
+    <div class="row mt-4">
+       <div class="col-md-12">
+           <div class="card">
+               <div class="card-body">
+                    
                 <table class="table table-hover">
          <thead>
              <tr>
-                 
+              <th>Title</th>
                  <th>Title</th>
                  <th>Closing Date</th>
                  <th>Type</th>
@@ -37,8 +33,8 @@
             @forelse ($notices as $notice )
 
             <tr>
-                
-                <td>{{$notice->title}}</td>
+            <td>{{$notice->user->name}}</td>
+                 <td>{{$notice->title}}</td>
                  <td>{{$notice->closing_date}}</td>
                  <td>{{$notice->procurementtype->name}}</td>
                  <td>{{$notice->categorylist->name}}</td>
@@ -60,14 +56,11 @@
            
          </tbody>
      </table>
-            
-           
-  
-  
-      
-        </div>
+               </div>
+           </div>
+       </div>
     </div>
-    </div>
-</section>
+
+</div>
 
 @endsection

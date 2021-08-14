@@ -1,6 +1,13 @@
 <?php
 
-
+use App\Http\Controllers\administrator\companyregistrationsController;
+use App\Http\Controllers\administrator\homeController;
+use App\Http\Controllers\administrator\invoiceController as AppInvoiceController;
+use App\Http\Controllers\administrator\noticeController;
+use App\Http\Controllers\administrator\prazregistrationsController;
+use App\Http\Controllers\administrator\subscriptionController as AppSubscriptionController;
+use App\Http\Controllers\administrator\usersController;
+use App\Http\Controllers\administrator\vendorregistrationsController;
 use App\Http\Controllers\user\companyregistrationController;
 use App\Http\Controllers\user\directoryController;
 use App\Http\Controllers\user\directoryproductController;
@@ -67,3 +74,17 @@ Route::get('/reports/invoices',[invoicesController::class,'index'])->name('repor
 Route::get('/reports/onlinepayments',[AppPaynowController::class,'index'])->name('report-paynow');
 Route::get('/reports/transfers',[transfersController::class,'index'])->name('report-transfers');
 Route::get('/reports/receipts/{id}',[receiptsController::class,'show'])->name('report-receipt');
+
+Route::middleware(['checkadmin'])->group(function (){ 
+    Route::prefix('administrator')->group(function(){
+        Route::get('/',[homeController::class,'index'])->name('admin.home'); 
+        Route::resource('/admin-invoices',AppInvoiceController::class);
+        Route::resource('/admin-subscriptions',AppSubscriptionController::class);
+        Route::resource('/admin-notices',noticeController::class);
+        Route::resource('/admin-companyregistrations',companyregistrationsController::class);
+        Route::resource('/admin-vendorregistrations',vendorregistrationsController::class);
+        Route::resource('/admin-prazregistrations',prazregistrationsController::class);
+        Route::resource('/admin-users',usersController::class);
+    });
+    
+});

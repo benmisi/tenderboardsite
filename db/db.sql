@@ -24,11 +24,31 @@ CREATE TABLE IF NOT EXISTS `administrators` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `administrators_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table tenderboardsite.administrators: ~0 rows (approximately)
 /*!40000 ALTER TABLE `administrators` DISABLE KEYS */;
+INSERT IGNORE INTO `administrators` (`id`, `name`, `surname`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+	(1, 'admin', 'admin', 'admin@tendernoticeboard.co.zw', NULL, '$2y$10$x/HGDAoK0zw2oBn3u4BDBu08RaqMYVCjxaok.zRx8tcmZSRA45UOO', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `administrators` ENABLE KEYS */;
+
+-- Dumping structure for table tenderboardsite.categories
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.categories: ~4 rows (approximately)
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT IGNORE INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
+	(1, 'ICT', NULL, NULL),
+	(2, 'Construction', NULL, NULL),
+	(3, 'Medical', NULL, NULL),
+	(4, 'Civil Works', NULL, NULL);
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.companies
 CREATE TABLE IF NOT EXISTS `companies` (
@@ -78,6 +98,44 @@ CREATE TABLE IF NOT EXISTS `company_users` (
 /*!40000 ALTER TABLE `company_users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `company_users` ENABLE KEYS */;
 
+-- Dumping structure for table tenderboardsite.directories
+CREATE TABLE IF NOT EXISTS `directories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `emails` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phones` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bio` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.directories: ~1 rows (approximately)
+/*!40000 ALTER TABLE `directories` DISABLE KEYS */;
+INSERT IGNORE INTO `directories` (`id`, `user_id`, `uuid`, `company`, `address`, `emails`, `phones`, `bio`, `created_at`, `updated_at`) VALUES
+	(1, 2, '90c0487c-0fdb-4e8d-9214-78b0af29d7e5', 'AnixSys Pvt Ltd', '16832 stoneridge park harare', 'benson.misi@outlook.com', '+263775474661', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galle', '2021-08-13 10:15:58', '2021-08-13 10:15:58');
+/*!40000 ALTER TABLE `directories` ENABLE KEYS */;
+
+-- Dumping structure for table tenderboardsite.directory_products
+CREATE TABLE IF NOT EXISTS `directory_products` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `directory_id` int(10) unsigned NOT NULL,
+  `name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.directory_products: ~2 rows (approximately)
+/*!40000 ALTER TABLE `directory_products` DISABLE KEYS */;
+INSERT IGNORE INTO `directory_products` (`id`, `directory_id`, `name`, `image`, `created_at`, `updated_at`) VALUES
+	(2, 1, 'Website development', 'products/aMkW95py6yz1uL3J8jsGgZRsjRQV34HnxmqexdMN.jpg', '2021-08-13 10:52:41', '2021-08-13 10:52:41');
+/*!40000 ALTER TABLE `directory_products` ENABLE KEYS */;
+
 -- Dumping structure for table tenderboardsite.documents
 CREATE TABLE IF NOT EXISTS `documents` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -126,13 +184,14 @@ CREATE TABLE IF NOT EXISTS `invoicenumbers` (
 -- Dumping data for table tenderboardsite.invoicenumbers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `invoicenumbers` DISABLE KEYS */;
 INSERT IGNORE INTO `invoicenumbers` (`id`, `invoicenumber`, `created_at`, `updated_at`) VALUES
-	(1, 18, NULL, '2021-07-24 17:06:17');
+	(1, 49, NULL, '2021-08-14 14:17:52');
 /*!40000 ALTER TABLE `invoicenumbers` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.invoices
 CREATE TABLE IF NOT EXISTS `invoices` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
   `invoicenumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -141,16 +200,26 @@ CREATE TABLE IF NOT EXISTS `invoices` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.invoices: ~4 rows (approximately)
+-- Dumping data for table tenderboardsite.invoices: ~12 rows (approximately)
 /*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
-INSERT IGNORE INTO `invoices` (`id`, `user_id`, `invoicenumber`, `description`, `currency`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-	(2, 1, 'inv202171951', 'Company Registration', 'ZWL', '8000', 'AWAITING', '2021-07-19 13:12:27', '2021-07-19 16:55:39'),
-	(3, 1, 'inv202171961', 'Company Registration', 'ZWL', '8000', 'AWAITING', '2021-07-19 19:02:34', '2021-07-19 19:08:06'),
-	(4, 1, 'inv202172071', 'Company Registration', 'ZWL', '8000', 'PAID', '2021-07-20 10:03:07', '2021-07-20 15:41:04'),
-	(5, 1, 'inv2021720121', 'Company Registration', 'ZWL', '8000', 'PAID', '2021-07-20 15:54:23', '2021-07-21 10:19:18'),
-	(6, 1, 'inv2021721141', 'Company Registration', 'ZWL', '8000', 'AWAITING', '2021-07-21 11:22:33', '2021-07-21 11:34:54');
+INSERT IGNORE INTO `invoices` (`id`, `user_id`, `service_id`, `invoicenumber`, `description`, `currency`, `amount`, `status`, `created_at`, `updated_at`) VALUES
+	(2, 1, 0, 'inv202171951', 'Company Registration', 'ZWL', '8000', 'AWAITING', '2021-07-19 13:12:27', '2021-07-19 16:55:39'),
+	(3, 1, 0, 'inv202171961', 'Company Registration', 'ZWL', '8000', 'AWAITING', '2021-07-19 19:02:34', '2021-07-19 19:08:06'),
+	(4, 1, 0, 'inv202172071', 'Company Registration', 'ZWL', '8000', 'PAID', '2021-07-20 10:03:07', '2021-07-20 15:41:04'),
+	(5, 1, 0, 'inv2021720121', 'Company Registration', 'ZWL', '8000', 'PAID', '2021-07-20 15:54:23', '2021-07-21 10:19:18'),
+	(6, 1, 0, 'inv2021721141', 'Company Registration', 'ZWL', '8000', 'PAID', '2021-07-21 11:22:33', '2021-08-14 14:17:52'),
+	(7, 2, 2, 'inv2021811182', 'prazapplication', 'ZWL', '24000', 'PAID', '2021-08-11 15:01:15', '2021-08-11 15:25:07'),
+	(8, 2, 2, 'inv2021811232', 'prazapplication', 'ZWL', '24000', 'AWAITING', '2021-08-11 15:30:36', '2021-08-12 09:29:45'),
+	(9, 2, 1, 'inv2021812262', 'Company Registration', 'ZWL', '8000', 'PAID', '2021-08-12 10:15:13', '2021-08-12 10:15:53'),
+	(11, 2, 3, 'inv2021812312', 'vendorregistration', 'ZWL', '8000', 'PAID', '2021-08-12 15:28:19', '2021-08-12 15:32:51'),
+	(12, 2, 3, 'inv2021812332', 'vendorregistration', 'ZWL', '8000', 'PAID', '2021-08-12 15:40:50', '2021-08-14 14:10:12'),
+	(13, 2, 3, 'inv2021812342', 'vendorregistration', 'ZWL', '8000', 'PAID', '2021-08-12 16:19:10', '2021-08-12 16:19:42'),
+	(14, 2, 3, 'inv2021812362', 'vendorregistration', 'ZWL', '8000', 'PAID', '2021-08-12 16:22:41', '2021-08-12 16:23:20'),
+	(15, 2, 3, 'inv2021812382', 'vendorregistration', 'ZWL', '8000', 'PAID', '2021-08-12 16:24:25', '2021-08-12 16:24:52'),
+	(16, 2, 4, 'inv2021813422', 'vendorregistration', 'ZWL', '24000', 'PAID', '2021-08-13 15:51:35', '2021-08-13 16:00:55'),
+	(17, 2, 4, 'inv2021813442', 'subscription', 'ZWL', '1620000', 'PAID', '2021-08-13 16:03:56', '2021-08-13 16:04:49');
 /*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.migrations
@@ -159,9 +228,9 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.migrations: ~18 rows (approximately)
+-- Dumping data for table tenderboardsite.migrations: ~29 rows (approximately)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT IGNORE INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(13, '2014_10_12_000000_create_users_table', 1),
@@ -184,7 +253,16 @@ INSERT IGNORE INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(30, '2021_07_20_100659_create_receipts_table', 8),
 	(43, '2021_07_24_130959_create_prazapplications_table', 9),
 	(44, '2021_07_24_131815_create_prazcategories_table', 9),
-	(45, '2021_07_24_132102_create_prazapplication_items_table', 9);
+	(45, '2021_07_24_132102_create_prazapplication_items_table', 9),
+	(47, '2021_08_12_113523_create_vendorapplications_table', 10),
+	(61, '2021_08_12_161423_create_notifications_table', 11),
+	(62, '2021_08_12_165510_create_procurements_table', 11),
+	(63, '2021_08_12_170558_create_categories_table', 11),
+	(64, '2021_08_12_173521_create_procurementtypes_table', 11),
+	(65, '2021_08_12_185130_create_directories_table', 11),
+	(66, '2021_08_13_075714_create_directory_products_table', 11),
+	(67, '2021_08_13_112128_create_packages_table', 12),
+	(68, '2021_08_13_113831_create_subscriptions_table', 12);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.myapplications
@@ -194,21 +272,41 @@ CREATE TABLE IF NOT EXISTS `myapplications` (
   `service_id` int(11) NOT NULL,
   `invoicenumber` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `fields` json NOT NULL,
+  `approved` text COLLATE utf8mb4_unicode_ci,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.myapplications: ~4 rows (approximately)
+-- Dumping data for table tenderboardsite.myapplications: ~6 rows (approximately)
 /*!40000 ALTER TABLE `myapplications` DISABLE KEYS */;
-INSERT IGNORE INTO `myapplications` (`id`, `user_id`, `service_id`, `invoicenumber`, `fields`, `status`, `created_at`, `updated_at`) VALUES
-	(3, 1, 1, 'inv202171951', '{"names": [{"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "Anix Sys Pvt Ltd", "status": "PENDING"}, {"name": "Anix-Sys Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Vimbai Matenga", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', 'PENDING', '2021-07-19 13:12:27', '2021-07-19 13:12:27'),
-	(4, 1, 1, 'inv202171961', '{"names": [{"name": "iVerify Pvt Ltd", "status": "PENDING"}, {"name": "eVerification Pvt Ltd", "status": "PENDING"}, {"name": "iVerifictation Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Vimbai Matenga", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', 'AWAITING', '2021-07-19 19:02:34', '2021-07-19 19:08:06'),
-	(5, 1, 1, 'inv202172071', '{"names": [{"name": "Belly Motors", "status": "PENDING"}, {"name": "Belly Motors", "status": "PENDING"}, {"name": "PRAZ", "status": "PENDING"}], "directors": [{"name": "test", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}]}', 'IN-PROGRESS', '2021-07-20 10:03:07', '2021-07-20 15:41:04'),
-	(6, 1, 1, 'inv2021720121', '{"names": [{"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Benson Misi", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', 'IN-PROGRESS', '2021-07-20 15:54:23', '2021-07-21 10:19:18'),
-	(7, 1, 1, 'inv2021721141', '{"names": [{"name": "zxczxcxzcxzc", "status": "PENDING"}, {"name": "zxcxccxzcxzc", "status": "PENDING"}, {"name": "xzcxzcxzcxzczxc", "status": "PENDING"}], "directors": [{"name": "xzcxzcxzcxz", "shares": "56", "address": "zxcxzcxzcxz", "national_id": "xzczxcxzc"}, {"name": "zxcxcxzcxz", "shares": "44", "address": "zxcxzcczxczcx", "national_id": "zxczxcxzcxz"}]}', 'AWAITING', '2021-07-21 11:22:33', '2021-07-21 11:34:54');
+INSERT IGNORE INTO `myapplications` (`id`, `user_id`, `service_id`, `invoicenumber`, `fields`, `approved`, `status`, `created_at`, `updated_at`) VALUES
+	(3, 1, 1, 'inv202171951', '{"names": [{"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "Anix Sys Pvt Ltd", "status": "PENDING"}, {"name": "Anix-Sys Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Vimbai Matenga", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', NULL, 'PENDING', '2021-07-19 13:12:27', '2021-07-19 13:12:27'),
+	(4, 1, 1, 'inv202171961', '{"names": [{"name": "iVerify Pvt Ltd", "status": "PENDING"}, {"name": "eVerification Pvt Ltd", "status": "PENDING"}, {"name": "iVerifictation Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Vimbai Matenga", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', NULL, 'AWAITING', '2021-07-19 19:02:34', '2021-07-19 19:08:06'),
+	(5, 1, 1, 'inv202172071', '{"names": [{"name": "Belly Motors", "status": "PENDING"}, {"name": "Belly Motors", "status": "PENDING"}, {"name": "PRAZ", "status": "PENDING"}], "directors": [{"name": "test", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}]}', NULL, 'IN-PROGRESS', '2021-07-20 10:03:07', '2021-07-20 15:41:04'),
+	(6, 1, 1, 'inv2021720121', '{"names": [{"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Benson Misi", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', NULL, 'IN-PROGRESS', '2021-07-20 15:54:23', '2021-07-21 10:19:18'),
+	(7, 1, 1, 'inv2021721141', '{"names": [{"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Benson Misi", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', 'AnixSys Pvt Ltd', 'PROCESSED', '2021-07-21 11:22:33', '2021-08-14 16:52:06'),
+	(10, 2, 1, 'inv2021812262', '{"names": [{"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}, {"name": "AnixSys Pvt Ltd", "status": "PENDING"}], "directors": [{"name": "Benson Misi", "shares": "50", "address": "16832 stoneridge park harare", "national_id": "29-2499999999"}, {"name": "Benson Misi", "shares": "50", "address": "76 samora machael", "national_id": "29-2499999999"}]}', 'AnixSys Pvt Ltd', 'PROCESSED', '2021-08-12 10:15:13', '2021-08-14 16:51:41');
 /*!40000 ALTER TABLE `myapplications` ENABLE KEYS */;
+
+-- Dumping structure for table tenderboardsite.notifications
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_id` bigint(20) unsigned NOT NULL,
+  `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.notifications: ~0 rows (approximately)
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.onlinepayments
 CREATE TABLE IF NOT EXISTS `onlinepayments` (
@@ -222,14 +320,54 @@ CREATE TABLE IF NOT EXISTS `onlinepayments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.onlinepayments: ~2 rows (approximately)
+-- Dumping data for table tenderboardsite.onlinepayments: ~11 rows (approximately)
 /*!40000 ALTER TABLE `onlinepayments` DISABLE KEYS */;
 INSERT IGNORE INTO `onlinepayments` (`id`, `user_id`, `invoicenumber`, `poll_url`, `amount`, `status`, `mode`, `created_at`, `updated_at`) VALUES
 	(1, 1, 'inv202172071', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=a40aecce-f3db-49fa-94fe-3e80b608f60d', '8000', 'paid', 'ECOCASH', '2021-07-20 15:35:56', '2021-07-20 15:43:19'),
-	(2, 1, 'inv2021720121', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=daf1fd8c-48f2-4269-adce-d8b19214e4bb', '8000', 'paid', 'ECOCASH', '2021-07-21 10:19:04', '2021-07-21 10:19:18');
+	(2, 1, 'inv2021720121', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=daf1fd8c-48f2-4269-adce-d8b19214e4bb', '8000', 'paid', 'ECOCASH', '2021-07-21 10:19:04', '2021-07-21 10:19:18'),
+	(3, 2, 'inv2021811182', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=d3849fde-7110-45ed-8ed7-9a0fbd827894', '10000', 'paid', 'ECOCASH', '2021-08-11 15:12:32', '2021-08-11 15:12:46'),
+	(4, 2, 'inv2021811182', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=cbab5122-1896-4bb6-9b00-c38f5eea3534', '10000', 'paid', 'ECOCASH', '2021-08-11 15:13:39', '2021-08-11 15:14:26'),
+	(5, 2, 'inv2021811182', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=4018e624-e567-4454-8f09-95364c56179f', '2000', 'paid', 'ECOCASH', '2021-08-11 15:15:57', '2021-08-11 15:16:14'),
+	(6, 2, 'inv2021811182', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=839d26c9-bbb9-49ef-b860-549d4924cfe4', '2000', 'paid', 'ECOCASH', '2021-08-11 15:24:28', '2021-08-11 15:25:07'),
+	(7, 2, 'inv2021812262', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=1696aa29-e74f-4439-a351-8bc0d6fedb75', '8000', 'paid', 'ECOCASH', '2021-08-12 10:15:37', '2021-08-12 10:15:53'),
+	(8, 2, 'inv2021812312', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=626756a3-63b4-4f25-b787-b5d199f69e17', '8000', 'paid', 'ECOCASH', '2021-08-12 15:32:40', '2021-08-12 15:32:51'),
+	(9, 2, 'inv2021812342', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=e6aca73e-a9fd-4363-9519-6f92e0424578', '8000', 'paid', 'ECOCASH', '2021-08-12 16:19:23', '2021-08-12 16:19:41'),
+	(10, 2, 'inv2021812362', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=2fbaba73-3f3e-43fb-9f8d-64454565a1b1', '8000', 'paid', 'ECOCASH', '2021-08-12 16:22:51', '2021-08-12 16:23:20'),
+	(11, 2, 'inv2021812382', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=4261cfc3-4704-487d-8272-c2ea8ef75e52', '8000', 'paid', 'ECOCASH', '2021-08-12 16:24:38', '2021-08-12 16:24:52'),
+	(12, 2, 'inv2021813422', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=ffa97272-c621-4079-9543-6f82d2e9c5b9', '24000', 'paid', 'ECOCASH', '2021-08-13 16:00:36', '2021-08-13 16:00:55'),
+	(13, 2, 'inv2021813442', 'https://www.paynow.co.zw/Interface/CheckPayment/?guid=f6ea977d-083c-4ff9-aa6e-4afca3e3abdb', '1620000', 'paid', 'ECOCASH', '2021-08-13 16:04:25', '2021-08-13 16:04:49');
 /*!40000 ALTER TABLE `onlinepayments` ENABLE KEYS */;
+
+-- Dumping structure for table tenderboardsite.packages
+CREATE TABLE IF NOT EXISTS `packages` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `whatsapp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rfqs` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tenders` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expression` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vendor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `praz` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `directory` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.packages: ~4 rows (approximately)
+/*!40000 ALTER TABLE `packages` DISABLE KEYS */;
+INSERT IGNORE INTO `packages` (`id`, `name`, `email`, `whatsapp`, `rfqs`, `tenders`, `expression`, `vendor`, `praz`, `company`, `directory`, `currency`, `amount`, `created_at`, `updated_at`) VALUES
+	(1, 'Free', 'N', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'N', 'ZWL', '0', NULL, NULL),
+	(2, 'Starter', 'Y', 'N', 'Y', 'N', 'Y', 'Y', 'Y', 'Y', 'Y', 'ZWL', '8000', NULL, NULL),
+	(3, 'SME', 'Y', 'Y', 'Y', 'N', 'Y', 'Y', 'Y', 'Y', 'Y', 'ZWL', '9000', NULL, NULL),
+	(4, 'Enterprises', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'ZWL', '10000', NULL, NULL);
+/*!40000 ALTER TABLE `packages` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.password_resets
 CREATE TABLE IF NOT EXISTS `password_resets` (
@@ -278,12 +416,14 @@ CREATE TABLE IF NOT EXISTS `prazapplications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.prazapplications: ~0 rows (approximately)
+-- Dumping data for table tenderboardsite.prazapplications: ~3 rows (approximately)
 /*!40000 ALTER TABLE `prazapplications` DISABLE KEYS */;
 INSERT IGNORE INTO `prazapplications` (`id`, `user_id`, `service_id`, `invoicenumber`, `companyname`, `companytype_id`, `hasaccount`, `email`, `password`, `locality`, `status`, `created_at`, `updated_at`) VALUES
-	(1, 1, 2, 'inv2021724171', 'AnixSys Pvt Ltd', 1, 'Y', 'benson.misi@gmail.com', 'chikomba2020@', 'LOCAL', 'PENDING', '2021-07-24 17:06:17', '2021-07-24 17:06:17');
+	(1, 1, 2, 'inv2021724171', 'AnixSys Pvt Ltd', 1, 'Y', 'benson.misi@gmail.com', 'chikomba2020@', 'LOCAL', 'PENDING', '2021-07-24 17:06:17', '2021-07-24 17:06:17'),
+	(2, 2, 2, 'inv2021811182', 'Vimbai Marketing', 1, 'Y', 'vimbai.matenga@gmail.com', 'makoni2020@', 'LOCAL', 'PROCESSED', '2021-08-11 12:12:00', '2021-08-14 17:47:34'),
+	(3, 2, 2, 'inv2021811232', 'AnixSys Pvt Ltd', 1, 'Y', 'benson.misi@outlook.com', '2019###', 'LOCAL', 'AWAITING', '2021-08-11 15:30:19', '2021-08-12 09:29:45');
 /*!40000 ALTER TABLE `prazapplications` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.prazapplication_items
@@ -293,14 +433,23 @@ CREATE TABLE IF NOT EXISTS `prazapplication_items` (
   `prazapplication_id` int(11) NOT NULL,
   `prazcategory_id` int(11) NOT NULL,
   `regyear` int(11) NOT NULL,
+  `currency` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `amount` int(11) NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.prazapplication_items: ~0 rows (approximately)
+-- Dumping data for table tenderboardsite.prazapplication_items: ~6 rows (approximately)
 /*!40000 ALTER TABLE `prazapplication_items` DISABLE KEYS */;
+INSERT IGNORE INTO `prazapplication_items` (`id`, `user_id`, `prazapplication_id`, `prazcategory_id`, `regyear`, `currency`, `amount`, `status`, `created_at`, `updated_at`) VALUES
+	(1, 2, 2, 108, 2021, 'ZWL', 8000, 'PENDING', '2021-08-11 14:28:20', '2021-08-11 14:28:20'),
+	(2, 2, 2, 131, 2021, 'ZWL', 8000, 'PENDING', '2021-08-11 14:28:20', '2021-08-11 14:28:20'),
+	(4, 2, 2, 52, 2021, 'ZWL', 8000, 'PENDING', '2021-08-11 14:57:02', '2021-08-11 14:57:02'),
+	(5, 2, 3, 56, 2021, 'ZWL', 8000, 'PENDING', '2021-08-11 15:30:30', '2021-08-11 15:30:30'),
+	(6, 2, 3, 55, 2021, 'ZWL', 8000, 'PENDING', '2021-08-11 15:30:30', '2021-08-11 15:30:30'),
+	(7, 2, 3, 54, 2021, 'ZWL', 8000, 'PENDING', '2021-08-11 15:30:30', '2021-08-11 15:30:30');
 /*!40000 ALTER TABLE `prazapplication_items` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.prazcategories
@@ -450,6 +599,48 @@ INSERT IGNORE INTO `prazcategories` (`id`, `code`, `description`, `created_at`, 
 	(132, 'GL003', 'Poultry and Livestock', NULL, NULL);
 /*!40000 ALTER TABLE `prazcategories` ENABLE KEYS */;
 
+-- Dumping structure for table tenderboardsite.procurements
+CREATE TABLE IF NOT EXISTS `procurements` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `closing_date` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `document` text COLLATE utf8mb4_unicode_ci,
+  `category_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PRIVATE',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.procurements: ~2 rows (approximately)
+/*!40000 ALTER TABLE `procurements` DISABLE KEYS */;
+INSERT IGNORE INTO `procurements` (`id`, `uuid`, `user_id`, `company`, `type`, `title`, `description`, `closing_date`, `document`, `category_id`, `status`, `created_at`, `updated_at`) VALUES
+	(1, '0ecebfda-d166-4dff-a6f9-1de65c5c0e51', 2, 'Anixsys Pvt', '1', 'Computers', 'The name method may be used to prefix each route name in the group with a given string. For example, you may want to prefix all of the grouped route\'s names with admin. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing . character in the prefix:', '2021-08-27', 'notices/YFrzsDiXOsYRtjPpo3dOZ29aGypV8EQZn5pfLPU9.pdf', '1', 'PUBLIC', '2021-08-14 15:40:24', '2021-08-14 15:40:24'),
+	(2, 'f7fb6f1b-127e-42b7-bce2-192a6d16271b', 2, 'Anixsys Pvt', '1', 'Computers', 'The name method may be used to prefix each route name in the group with a given string. For example, you may want to prefix all of the grouped route\'s names with admin. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing . character in the prefix:', '2021-08-19', 'notices/BHzD9U8G9su4xg5blyeujtpqK8SNRAhU8NV7zZh0.pdf', '1', 'PUBLIC', '2021-08-14 15:40:51', '2021-08-14 15:40:51');
+/*!40000 ALTER TABLE `procurements` ENABLE KEYS */;
+
+-- Dumping structure for table tenderboardsite.procurementtypes
+CREATE TABLE IF NOT EXISTS `procurementtypes` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.procurementtypes: ~3 rows (approximately)
+/*!40000 ALTER TABLE `procurementtypes` DISABLE KEYS */;
+INSERT IGNORE INTO `procurementtypes` (`id`, `name`, `created_at`, `updated_at`) VALUES
+	(1, 'Request for Qouations', NULL, NULL),
+	(2, 'Competetive Bidding', NULL, NULL),
+	(3, 'Expression of Interest', NULL, NULL);
+/*!40000 ALTER TABLE `procurementtypes` ENABLE KEYS */;
+
 -- Dumping structure for table tenderboardsite.receipts
 CREATE TABLE IF NOT EXISTS `receipts` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -462,13 +653,26 @@ CREATE TABLE IF NOT EXISTS `receipts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.receipts: ~2 rows (approximately)
+-- Dumping data for table tenderboardsite.receipts: ~13 rows (approximately)
 /*!40000 ALTER TABLE `receipts` DISABLE KEYS */;
 INSERT IGNORE INTO `receipts` (`id`, `invoicenumber`, `receiptnumber`, `source`, `source_id`, `currency`, `amount`, `created_at`, `updated_at`) VALUES
 	(1, 'inv202172071', 'rpt2021720111', 'onlinepayment', 1, 'ZWL', '8000', '2021-07-20 15:43:20', '2021-07-20 15:43:20'),
-	(2, 'inv2021720121', 'rpt2021721131', 'onlinepayment', 2, 'ZWL', '8000', '2021-07-21 10:19:18', '2021-07-21 10:19:18');
+	(2, 'inv2021720121', 'rpt2021721131', 'onlinepayment', 2, 'ZWL', '8000', '2021-07-21 10:19:18', '2021-07-21 10:19:18'),
+	(3, 'inv2021811182', 'rpt2021811192', 'onlinepayment', 3, 'ZWL', '10000', '2021-08-11 15:12:46', '2021-08-11 15:12:46'),
+	(4, 'inv2021811182', 'rpt2021811202', 'onlinepayment', 4, 'ZWL', '10000', '2021-08-11 15:14:26', '2021-08-11 15:14:26'),
+	(5, 'inv2021811182', 'rpt2021811212', 'onlinepayment', 5, 'ZWL', '2000', '2021-08-11 15:16:14', '2021-08-11 15:16:14'),
+	(6, 'inv2021811182', 'rpt2021811222', 'onlinepayment', 6, 'ZWL', '2000', '2021-08-11 15:25:07', '2021-08-11 15:25:07'),
+	(7, 'inv2021812262', 'rpt2021812272', 'onlinepayment', 7, 'ZWL', '8000', '2021-08-12 10:15:53', '2021-08-12 10:15:53'),
+	(8, 'inv2021812312', 'rpt2021812322', 'onlinepayment', 8, 'ZWL', '8000', '2021-08-12 15:32:51', '2021-08-12 15:32:51'),
+	(9, 'inv2021812342', 'rpt2021812352', 'onlinepayment', 9, 'ZWL', '8000', '2021-08-12 16:19:42', '2021-08-12 16:19:42'),
+	(10, 'inv2021812362', 'rpt2021812372', 'onlinepayment', 10, 'ZWL', '8000', '2021-08-12 16:23:20', '2021-08-12 16:23:20'),
+	(11, 'inv2021812382', 'rpt2021812392', 'onlinepayment', 11, 'ZWL', '8000', '2021-08-12 16:24:52', '2021-08-12 16:24:52'),
+	(12, 'inv2021813422', 'rpt2021813432', 'onlinepayment', 12, 'ZWL', '24000', '2021-08-13 16:00:55', '2021-08-13 16:00:55'),
+	(13, 'inv2021813442', 'rpt2021813452', 'onlinepayment', 13, 'ZWL', '1620000', '2021-08-13 16:04:49', '2021-08-13 16:04:49'),
+	(14, 'inv2021812332', 'rpt2021814462', 'transfer', 3, 'ZWL', '8000', '2021-08-14 14:10:12', '2021-08-14 14:10:12'),
+	(15, 'inv2021721141', 'rpt2021814481', 'transfer', 1, 'ZWL', '8000', '2021-08-14 14:17:52', '2021-08-14 14:17:52');
 /*!40000 ALTER TABLE `receipts` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.services
@@ -478,14 +682,15 @@ CREATE TABLE IF NOT EXISTS `services` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table tenderboardsite.services: ~2 rows (approximately)
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
 INSERT IGNORE INTO `services` (`id`, `name`, `created_at`, `updated_at`) VALUES
 	(1, 'Company Registrations', NULL, NULL),
 	(2, 'PRAZ Registrations', NULL, NULL),
-	(3, 'Vendor Registratons', NULL, NULL);
+	(3, 'Vendor Registratons', NULL, NULL),
+	(4, 'Subscriptions', NULL, NULL);
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.service_prices
@@ -508,6 +713,31 @@ INSERT IGNORE INTO `service_prices` (`id`, `service_id`, `locality`, `currency`,
 	(3, 3, 'LOCAL', 'ZWL', '8000', NULL, NULL);
 /*!40000 ALTER TABLE `service_prices` ENABLE KEYS */;
 
+-- Dumping structure for table tenderboardsite.subscriptions
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `package_id` int(11) NOT NULL,
+  `invoicenumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `duration` int(11) NOT NULL,
+  `expire_date` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.subscriptions: ~4 rows (approximately)
+/*!40000 ALTER TABLE `subscriptions` DISABLE KEYS */;
+INSERT IGNORE INTO `subscriptions` (`id`, `user_id`, `package_id`, `invoicenumber`, `duration`, `expire_date`, `status`, `created_at`, `updated_at`) VALUES
+	(2, 2, 1, 'FREE', 30, '09/13/2021', 'ACTIVE', NULL, NULL),
+	(4, 2, 3, 'inv2021813442', 180, '2022-02-09 16:03:56', 'ACTIVE', '2021-08-13 16:03:56', '2021-08-13 16:04:49'),
+	(5, 3, 1, 'FREE3', 30, '2021-09-13 10:45:37', 'ACTIVE', '2021-08-14 10:45:37', '2021-08-14 10:45:37'),
+	(6, 4, 1, 'FREE4', 30, '2021-09-13 11:45:12', 'ACTIVE', '2021-08-14 11:45:12', '2021-08-14 11:45:12'),
+	(7, 5, 1, 'import5', 30, '9-13-2021 11:45', 'ACTIVE', '2021-08-14 18:29:47', '2021-08-14 18:29:47'),
+	(8, 6, 1, 'import6', 30, '9-14-2021 11:45', 'ACTIVE', '2021-08-14 18:29:47', '2021-08-14 18:29:47');
+/*!40000 ALTER TABLE `subscriptions` ENABLE KEYS */;
+
 -- Dumping structure for table tenderboardsite.transfers
 CREATE TABLE IF NOT EXISTS `transfers` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -520,12 +750,14 @@ CREATE TABLE IF NOT EXISTS `transfers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.transfers: ~0 rows (approximately)
+-- Dumping data for table tenderboardsite.transfers: ~3 rows (approximately)
 /*!40000 ALTER TABLE `transfers` DISABLE KEYS */;
 INSERT IGNORE INTO `transfers` (`id`, `user_id`, `invoice_id`, `bank`, `payment_date`, `filename`, `status`, `created_at`, `updated_at`) VALUES
-	(1, 1, 6, 'NMB', '2021-07-15', 'pops/ZdVfNZ9zCNa2D5wG7AiQd9tl0Co1YDjbFHSXtwXa.pdf', 'PENDING', '2021-07-21 11:34:54', '2021-07-21 11:34:54');
+	(1, 1, 6, 'NMB', '2021-07-15', 'pops/ZdVfNZ9zCNa2D5wG7AiQd9tl0Co1YDjbFHSXtwXa.pdf', 'PENDING', '2021-07-21 11:34:54', '2021-07-21 11:34:54'),
+	(2, 2, 8, 'CBZ', '2021-08-13', 'pops/NcWDgtowwPX0Ih2DKHGJOsgU5PLk6dOhpgKyqItE.pdf', 'PENDING', '2021-08-12 09:29:45', '2021-08-12 09:29:45'),
+	(3, 2, 12, 'NMB', '2021-08-13', 'pops/dV39nmbuXLbNmPqm69mwqCbYRsA0qpF07A3StDRu.pdf', 'PENDING', '2021-08-12 15:41:11', '2021-08-12 15:41:11');
 /*!40000 ALTER TABLE `transfers` ENABLE KEYS */;
 
 -- Dumping structure for table tenderboardsite.userdocuments
@@ -552,18 +784,62 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table tenderboardsite.users: ~0 rows (approximately)
+-- Dumping data for table tenderboardsite.users: ~4 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT IGNORE INTO `users` (`id`, `name`, `surname`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'Benson', 'Misi', 'benson.misi@gmail.com', NULL, '$2y$10$AbqvZTEzw3IjTccG5evEwuPWdjRUiW9h5u8qNyPyf/MBiIQVhiXUq', NULL, '2021-07-14 12:25:00', '2021-07-14 12:25:00');
+INSERT IGNORE INTO `users` (`id`, `name`, `surname`, `email`, `email_verified_at`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
+	(1, 'Benson', 'Misi', 'benson.misi@gmail.com', NULL, '$2y$10$AbqvZTEzw3IjTccG5evEwuPWdjRUiW9h5u8qNyPyf/MBiIQVhiXUq', 'user', NULL, '2021-07-14 12:25:00', '2021-07-14 12:25:00'),
+	(2, 'Vimbai', 'Misi', 'benson.misi@outlook.com', NULL, '$2y$10$lIouVVCYYdvEmKSvRkAjQ.Y5uJqfoPS32tyUOXVPB1.klUi5jMP4C', 'user', NULL, '2021-08-11 11:16:02', '2021-08-11 11:16:02'),
+	(3, 'Tadiwa', 'Misi', 'misib@praz.org.zw', NULL, '$2y$10$0HgOSPLWCAzc1wzYwdFuqujXZIa1UMLcWFMf2t1BL05Pjx8fTL5LW', 'user', NULL, '2021-08-14 10:45:37', '2021-08-14 10:45:37'),
+	(4, 'Admin', 'Admin', 'admin@tendernoticeboard.co.zw', NULL, '$2y$10$nUVL34imep83BPikuMHwXemO5rdhcA6p/N.DxGAfbg7kF3qzsUs7i', 'admin', NULL, '2021-08-14 11:45:12', '2021-08-14 11:45:12'),
+	(5, 'Test1', 'test1', 'test1@test1.co.zw', NULL, '123456789', 'user', NULL, '2021-08-14 18:29:47', '2021-08-14 18:29:47'),
+	(6, 'Test2', 'test2', 'test2@test1.co.zw', NULL, '123456789', 'user', NULL, '2021-08-14 18:29:47', '2021-08-14 18:29:47');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+-- Dumping structure for table tenderboardsite.vendorapplications
+CREATE TABLE IF NOT EXISTS `vendorapplications` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `invoicenumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicationtype` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zipcode` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `accountnumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `branch` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `branchcode` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `surname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `year` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paymentstatus` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING',
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table tenderboardsite.vendorapplications: ~4 rows (approximately)
+/*!40000 ALTER TABLE `vendorapplications` DISABLE KEYS */;
+INSERT IGNORE INTO `vendorapplications` (`id`, `user_id`, `company`, `invoicenumber`, `applicationtype`, `address`, `city`, `state`, `country`, `zipcode`, `bank`, `accountnumber`, `branch`, `branchcode`, `email`, `name`, `surname`, `position`, `year`, `paymentstatus`, `status`, `created_at`, `updated_at`) VALUES
+	(2, 2, 'AnixSys Pvt Ltd', 'inv2021812312', 'NEW', '16832 stoneridge park harare', 'Harare', 'Please choose', 'ZIMBABWE', '263', 'NMB', '320019974', 'JOINA', '01111', 'benson.misi@outlook.com', 'Benson Misi', 'Misi', 'ICT Officer', '2021', 'PENDING', 'PENDING', '2021-08-12 15:28:19', '2021-08-12 15:28:19'),
+	(3, 2, 'PAZ', 'inv2021812332', 'NEW', '76 samora machael\r\n5th Floor', 'CBD', 'Harare', 'ZIMBABWE', '263', 'NMB', '466654', 'fdgsdffd', '01111', 'benson.misi@outlook.com', 'Tendai chipika', 'Misi', 'ICT Officer', '2020', 'PENDING', 'PROCESSED', '2021-08-12 15:40:50', '2021-08-14 17:27:03'),
+	(4, 2, 'AnixSys Pvt Ltd', 'inv2021812342', 'NEW', '16832 stoneridge park harare', 'Harare', 'Please choose', 'ZIMBABWE', '263', 'NMB', '466654', 'fdgsdffd', '01111', 'benson.misi@outlook.com', 'Benson Misi', 'Misi', 'ICT Officer', '2020', 'PENDING', 'PROCESSED', '2021-08-12 16:19:10', '2021-08-14 17:27:07'),
+	(5, 2, 'AnixSys Pvt Ltd', 'inv2021812362', 'NEW', '16832 stoneridge park harare', 'Harare', 'Please choose', 'ZIMBABWE', '263', 'NMB', '466654', 'JOINA', '01111', 'benson.misi@outlook.com', 'Benson Misi', 'Misi', 'ICT Officer', '2020', 'PENDING', 'PROCESSED', '2021-08-12 16:22:41', '2021-08-14 17:27:10'),
+	(6, 2, 'PAZ', 'inv2021812382', 'NEW', '76 samora machael\r\n5th Floor', 'CBD', 'Harare', 'ZIMBABWE', '263', 'NMB', '466654', 'JOINA', '01111', 'benson.misi@outlook.com', 'Tendai chipika', 'Misi', 'ICT Officer', '2020', 'PENDING', 'PROCESSED', '2021-08-12 16:24:25', '2021-08-14 17:27:13');
+/*!40000 ALTER TABLE `vendorapplications` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

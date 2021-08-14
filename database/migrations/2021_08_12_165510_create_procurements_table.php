@@ -20,9 +20,9 @@ class CreateProcurementsTable extends Migration
             $table->string('company');
             $table->string('type');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->string('closing_date');
-            $table->text('document')->nullable();
+            $table->string('document')->nullable();
             $table->string('category_id');
             $table->string('status')->default('PRIVATE');
             $table->timestamps();

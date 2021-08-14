@@ -19,4 +19,8 @@ class procurement extends Model
         return $this->hasOne(category::class,'id','category_id');
     }
 
+    public function procurementtype(){
+        return $this->hasOne(procurementtype::class,'id','type');
+    }
+
 }

@@ -18,7 +18,7 @@
     <div class="card-body">
     <table class="table table-stripped">
       <thead>
-          <tr><th>Date</th><th>Order number</th><th>Company names</th><td>Status</td><th></th></tr>
+          <tr><th>Date</th><th>Order number</th><th>Company names</th><th>Approved Name</th><td>Status</td><th></th></tr>
       </thead>
       <tbody>
           @forelse ($applications as $application )
@@ -34,9 +34,9 @@
                      @endforelse
                          </ol>
                     </td>
+                    <td>{{$application->approved}}</td>
                      <td>{{$application->status}}</td>
                      <td>
-                         <a href="{{route('Company-service.show',$application->id)}}" class="btn btn-sm btn-primary">View</a>
                      </td>
                  </tr> 
           @empty

@@ -61,10 +61,10 @@ class subscriptionController extends Controller
     {
      $package = $this->package->getPackage($id);
      $durationlist[] = array("id"=>"","name"=>"");
-     $durationlist[] = array("id"=>30,"name"=>"1 month");
-     $durationlist[] = array("id"=>90,"name"=>"3 months");
-     $durationlist[] = array("id"=>180,"name"=>"6 months");
-     $durationlist[] = array("id"=>365,"name"=>"12 months");
+     $durationlist[] = array("id"=>1,"name"=>"1 month");
+     $durationlist[] = array("id"=>3,"name"=>"3 months");
+     $durationlist[] = array("id"=>6,"name"=>"6 months");
+     $durationlist[] = array("id"=>12,"name"=>"12 months");
 
      return view('user.subscription.show',compact('package','durationlist','id'));
 

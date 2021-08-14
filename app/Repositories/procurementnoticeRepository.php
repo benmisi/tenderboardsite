@@ -13,6 +13,9 @@ class procurementnoticeRepository{
 
     }
 
+    public function getPublishedList(){
+        return procurement::with('category')->wherestatus('PUBLIC')->orderBy('id','desc')->get();    
+    }
     public function create(Request $request){
 
         $path = $request->file('filename')->store('notices','publicFile');

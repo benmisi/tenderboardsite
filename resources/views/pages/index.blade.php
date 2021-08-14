@@ -4,7 +4,7 @@
 <section id="banner">
     <div>
  <div class="row">
-     <div class="col-md-8">
+     <div class="col-md-8 ml-6" style="margin-left: 170px;">
          <div id="banner-title">Tender Notice Board</div>
          <div id="banner-subtitle">The Ultimate Zimbabwean Online Consultancy Gateway</div>
          <div class="d-flex banner-items">
@@ -46,7 +46,7 @@
                         
                     </div>
                     <div>
-                    <a href="{{route('how.vendor')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">READ MORE</a>
+                    <a href="{{route('register')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">Get Started</a>
                     </div>
                     <div>
 
@@ -62,7 +62,7 @@
                         
                     </div>
                 <div>
-                    <a href="{{route('how.company')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">READ MORE</a>
+                    <a href="{{route('register')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">Get Started</a>
                 </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                         
                     </div>
                 <div>
-                    <a href="{{route('how.praz')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">READ MORE</a>
+                    <a href="{{route('register')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">Get Started</a>
                 </div>
                 </div>
                 <div class="col-md-6 text-center p-5">
@@ -90,7 +90,7 @@
                         
                     </div>
                 <div>
-                    <a href="{{route('how.notifications')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">READ MORE</a>
+                    <a href="{{route('register')}}" type="button" class="btn btn-outline-secondary btn-white mt-2">Get Started</a>
                 </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
      <table class="table table-hover">
          <thead>
              <tr>
-                 <th>#</th>
+                 
                  <th>Title</th>
                  <th>Closing Date</th>
                  <th>Type</th>
@@ -115,66 +115,31 @@
              </tr>
          </thead>
          <tbody>
-             <tr>
-                 <td>1</td>
-                 <td>Procurement of a Generator</td>
-                 <td>2021-07-12</td>
-                 <td>RFQ</td>
-                 <td>Electrical Backups</td>
+
+            @forelse ($notices as $notice )
+
+            <tr>
+                
+                 <td>{{$notice->title}}</td>
+                 <td>{{$notice->closing_date}}</td>
+                 <td>{{$notice->type}}</td>
+                 <td>{{$notice->category->name}}</td>
                  <td>
                      <button class="btn btn-sm btn-primary">View</button>
                  </td>
              </tr>
-             <tr>
-                 <td>2</td>
-                 <td>Procurement of a Generator</td>
-                 <td>2021-07-12</td>
-                 <td>RFQ</td>
-                 <td>Electrical Backups</td>
-                 <td>
-                     <button class="btn btn-sm btn-primary">View</button>
-                 </td>
-             </tr>
-             <tr>
-                 <td>3</td>
-                 <td>Procurement of a Generator</td>
-                 <td>2021-07-12</td>
-                 <td>RFQ</td>
-                 <td>Electrical Backups</td>
-                 <td>
-                     <button class="btn btn-sm btn-primary">View</button>
-                 </td>
-             </tr>
-             <tr>
-                 <td>4</td>
-                 <td>Procurement of a Generator</td>
-                 <td>2021-07-12</td>
-                 <td>RFQ</td>
-                 <td>Electrical Backups</td>
-                 <td>
-                     <button class="btn btn-sm btn-primary">View</button>
-                 </td>
-             </tr>
-             <tr>
-                 <td>5</td>
-                 <td>Procurement of a Generator</td>
-                 <td>2021-07-12</td>
-                 <td>RFQ</td>
-                 <td>Electrical Backups</td>
-                 <td>
-                     <button class="btn btn-sm btn-primary">View</button>
-                 </td>
-             </tr>
-             <tr>
-                 <td>6</td>
-                 <td>Procurement of a Generator</td>
-                 <td>2021-07-12</td>
-                 <td>RFQ</td>
-                 <td>Electrical Backups</td>
-                 <td>
-                     <button class="btn btn-sm btn-primary">View</button>
-                 </td>
-             </tr>
+                
+            @empty
+                <tr>
+                    <td colspan="5" class="text-center text-danger mt-5 mb-5">No Procurement notices found as Yet</td>
+                </tr>
+            @endforelse
+             
+           
+           
+            
+           
+           
          </tbody>
      </table>
  </div>

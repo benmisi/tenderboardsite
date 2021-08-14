@@ -30,7 +30,8 @@
                     </form>
                     </div>
                     <div class="card-footer text-center">
-                         <p>Do not have an account? <a href="{{route('register')}}">Sign Un</a></p>
+                         <p>Do not have an account? <a href="{{route('register')}}">Sign Up</a></p>
+                         <p>Forgot your password? <a href="{{route('password.request')}}">Reset Password</a></p>
                     </div>
                 </div>
             </div>

@@ -10,5 +10,8 @@ class category extends Model
     use HasFactory;
     protected $guarded =[];
 
-    
+    public function notices()
+    {
+        return $this->hasMany(procurement::class,'category_id','id');
+    }
 }

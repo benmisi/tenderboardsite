@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\company;
+use App\Models\subscription;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -67,13 +69,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'surname'=>$data['surname'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
+        if(!is_null($user)){
+
+            subscription::create(['user_id'=>$user->id,'package_id'=>1,'invoicenumber'=>'FREE'.$user->id,'duration'=>30,'expire_date'=>Carbon::now()->addDays(30),'status'=>'ACTIVE']);
+        }
+
+         return $user;
         
    
         }

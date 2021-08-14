@@ -18,6 +18,9 @@ class directoryRepository{
         return directory::with('products')->whereuser_id(Auth::user()->id)->first();
     }
 
+    public function get_published_list(){
+        return directory::with('products')->get();
+    }
     public function get_directory($id){
         return directory::with('products')->whereid($id)->first();   
     }

@@ -12,6 +12,10 @@ class categoriesRepository{
         return category::get();
     }
 
+    public function get_list_tenders(){
+        return category::with('notices')->get();
+    } 
+
     public function create(Request $request){
         category::create(['name'=>$request->name]);
         return redirect()->route('home')->with('statusSuccess','Category Created');

@@ -2,12 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\categoriesRepository;
+use App\Repositories\directoryRepository;
+use App\Repositories\procurementnoticeRepository;
 use Illuminate\Http\Request;
 
 class welcomeController extends Controller
 {
+    private $notices;
+    private $directory;
+    private $category;
+    public function __construct(procurementnoticeRepository $notices,directoryRepository $directory,categoriesRepository $category)
+    {
+        $this->notices = $notices;
+        $this->directory = $directory;
+        $this->category = $category;
+        
+    }
      public function index(){
-         return view('pages.index');
+         $notices = $this->notices->getPublishedList();
+         $notices = $notices->take(10);
+         return view('pages.index',compact('notices'));
      }
 
      public function services(){
@@ -19,14 +34,16 @@ class welcomeController extends Controller
      }
 
      public function directory(){
-         return view('pages.directory');
+        $directorylist = $this->directory->get_published_list();
+         return view('pages.directory',compact('directorylist'));
      }
     
      public function directoryshow($uuid){
         return view('pages.directoryshow');    
      }
      public function tenders(){
-         return view('pages.tenders');
+        $notices = $this->notices->getPublishedList();
+         return view('pages.tenders',compact('notices'));
      }
 
      public function showtender($uuid){
@@ -50,6 +67,7 @@ class welcomeController extends Controller
      }
 
      public function categories(){
-         return view('pages.categories');
+         $categorylist = $this->category->get_list_tenders();
+         return view('pages.categories',compact('categorylist'));
      }
 }

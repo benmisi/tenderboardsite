@@ -20,6 +20,7 @@ class procurementnoticeController extends Controller
        $this->notice = $notice;  
        $this->categories = $categories;
        $this->types = $types;
+       $this->middleware(['auth','checsubscription']);
     }
     public function index()
     {

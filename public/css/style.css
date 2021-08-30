@@ -3,7 +3,11 @@
     padding: 0;
 }
 body{
- font-family: sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff ;
 }
 body, html {
     height: 100%;
@@ -83,9 +87,17 @@ body, html {
     font-size: 20px;
     line-height: 2.1em;
 }
-.latest{
+
+.bidbond{
     margin-top: 70px;
     background-color: #fff;
+    padding-bottom: 117px;
+}
+.latest{
+    margin-top: 10px;
+    background-color: #f8f9fb;
+    padding-bottom: 10px;
+   
 }
 
 #latest-title{
@@ -121,4 +133,62 @@ body, html {
 
     margin-top: 40px;
     margin-bottom: 40px;
+}
+
+.footer {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #1a1a1a;
+}
+.page_section {
+    padding-bottom: 117px;
+}
+.logo{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    vertical-align: middle;
+    text-transform: uppercase;
+    margin-left: 3px;
+}
+.footer_about_text{
+    color: #a5a5a5;
+    list-style-type: none;
+    text-align: left;
+    margin-top: 10px;
+}
+.footer_column_title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #FFFFFF;
+    padding-top: 15px;
+}
+.footer_contact_item {
+    font-size: 14px;
+    font-weight: 400;
+    color: #a5a5a5;
+    margin-bottom: 22px;
+    list-style-type: none;
+    text-align: left;
+}
+.footer_contact_icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+ul .footer_contact_item {
+    list-style-type: none;
+    text-align: left;
+    margin-left: -40px;
+    margin-top: 10px;
+}
+ul .footer_contact_item li{
+    margin-left: -50px;
+}
+.nav-item{
+    font-size: 15px !important;
 }

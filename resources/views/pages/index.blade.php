@@ -23,6 +23,10 @@
              <div><i class="fa fa-check"></i></div>
              <div>TENDER & RFQ Notification</div>
         </div>
+        <div  class="d-flex banner-items">
+             <div><i class="fa fa-check"></i></div>
+             <div>BID BOND APPLICATION</div>
+        </div>
         <div>
         <a href="{{route('register')}}" type="button" class="btn btn-outline-secondary btn-lg">TRY OUR SERVICE</a>
         </div>
@@ -98,6 +102,44 @@
     </div>
 </section>
 <section class="latest">
+<div class="container">
+    <div class="text-center">
+ <div id="latest-title">Online Bid-Bond Application </div>
+  <div id="subtitle">Need to participate in a Tender but do not have the required bid bond ?</div>
+</div>
+ <div class="mt-4">
+     <div class="row">
+         <div class="col-md-6">
+             <p>We have partner with a local insurance company to provide you an easy way to apply for a bid bond</p>
+ <ul>
+     <li>
+     The bid bond is issued by a Registered Commercial Bank hence it will need all of your bidding requirements at law
+     </li>
+     <li>
+     You do not have to pay the full bid bond value, you only pay ZWL $13 000 or 4% of bid value if the bid bond value is above ZWL $325 000
+
+     </li>
+     <li>
+     It takes 5 days for us to process your bid bond, therefore you need to apply at least 5 days before the Tender Closing date  
+     </li>
+ </ul>
+ <a href="{{route('register')}}" type="button" class="btn btn-primary btn-white mt-2">Get Started</a>
+</div>
+ <div class="col-md-6">
+    <h4>Powered By:</h4>
+    
+    <div>
+       <a href="http://www.wonayi.com/"> <img src="/img/wonayi.png"/></a>
+    </div>
+ </div>
+</div>
+
+
+
+</div>
+
+</section>
+<section class="bidbond">
     <div class="container">
  <div id="latest-title">Latest Tenders & RFQs</div>
  <div class="mt-4">
@@ -125,7 +167,7 @@
                  <td>{{$notice->procurementtype->name}}</td>
                  <td>{{$notice->categorylist->name}}</td>
                  <td>
-                     <button class="btn btn-sm btn-primary">View</button>
+                     <a href="{{route('show-notice',$notice->uuid)}}" class="btn btn-sm btn-primary">View</a>
                  </td>
              </tr>
                 
@@ -142,6 +184,15 @@
            
          </tbody>
      </table>
+     
+     @if (count($notices)>0)
+     <div class="row mt4">
+         <div class="col-md-4 offset-md-4 text-center">
+     <a href="{{route('tenders')}}" class="btn btn-lg block btn-success">Browse all </a>
+</div>
+     </div>
+     @endif
+    
  </div>
     </div>
 </section>

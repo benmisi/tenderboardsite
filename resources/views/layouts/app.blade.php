@@ -82,45 +82,61 @@
             @yield('content')
         </main>
 
-            <footer>
-            <div class="container">
+            <footer class="footer">
+                <div class="row">
+            <div class="col-md-10 offset-md-1">
             <div class="row">
-                <div class="col-md-4">
-                    <div>About Us</div>
-                    <div>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam consequatur obcaecati numquam delectus error iusto consequuntur maxime consectetur eius nihil esse, ipsum voluptate debitis sit nemo voluptatibus, odit, hic totam.
-                    </div>
+                <div class="col-md-3">
+                    <div class="logo">About Us</div>
+                    <div class="footer_about_text">
+                    We are committed to bringing transparency and efficiency in Public Procurement domain, and we believe that the first step to achieve this objective is to make the procurement opportunities available to a larger supplier base and giving them sufficient time to respond.</div>
                 </div>
-                <div class="col-md-4">
-                    <div>Quick Links</div>
+                <div class="col-md-3">
+                    <div class="footer_column_title">Quick Links</div>
                     <ul>
-                        <li>Tenders & RFQs</li>
-                        <li>Suppliers Directory</li>
-                        <li>Suppliers Categories</li>
-                        <li>Our Services</li>
-                        <li>Contact Us</li>
+                        <li class="footer_about_text">Tenders & RFQs</li>
+                        <li class="footer_about_text">Suppliers Directory</li>
+                        <li class="footer_about_text">Suppliers Categories</li>
+                        <li class="footer_about_text">Our Services</li>
+                        <li class="footer_about_text">Contact Us</li>
 
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <div>Contact Us</div>
+                <div class="col-md-3">
+                    <div class="footer_column_title">Contact With Us</div>
+                    <div class="footer_contact_item">                           
+                            <div> <i class="fa fa-facebook"></i> Tender NoticeBoard</div>
+                    </div>
+                    <div class="footer_contact_item">                           
+                            <div> <i class="fa fa-twitter"></i> @NoticeTender</div>
+                    </div>
+                    <div class="footer_contact_item">                           
+                            <div> <i class="fa fa-whatsapp"></i> :+263784929238</div>
+                    </div>
+                    <div class="footer_contact_item">                           
+                            <div> <i class="fa fa-envelope"></i> :tendernoticeboard@gmail.com</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer_column_title">Contact Us</div>
                     <div>
-                        <div class="d-flex">
+                        <div class="d-flex footer_contact_item">
                             <i class="fa fa-phone"></i>
-                            <div>+2637700000/+26388000000</div>
+                            <div>+263 784 929 238</div>
                         </div>
-                        <div class="d-flex">
+                        <div class="d-flex footer_contact_item">
                             <i class="fa fa-mail"></i>
-                            <div>info@tendernoticeboard.co.zw</div>
+                            <div>tendernoticeboard@gmail.com</div>
                         </div>
-                        <div class="d-flex">
+                        <div class="d-flex footer_contact_item">
                             <i class="fa fa-mail"></i>
-                            <div>146 Samora Macheal Borrowdale</div>
+                            <div>No 4 Cameron Road Borrowdale Hararee</div>
                         </div>
                     </div>
                 </div>
             </div>
             </div>
+</div>
             </footer>
         
     </div>

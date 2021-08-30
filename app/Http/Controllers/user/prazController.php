@@ -21,6 +21,7 @@ class prazController extends Controller
       $this->praz = $praz;   
       $this->categories = $categories;
       $this->types = $types;
+      $this->middleware('auth');
     }
     public function index()
     {

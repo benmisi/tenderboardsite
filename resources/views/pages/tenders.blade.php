@@ -43,7 +43,7 @@
                  <td>{{$notice->procurementtype->name}}</td>
                  <td>{{$notice->categorylist->name}}</td>
                  <td>
-                     <button class="btn btn-sm btn-primary">View</button>
+                 <a href="{{route('tender.show',$notice->uuid)}}" class="btn btn-sm btn-primary">View</a>
                  </td>
              </tr>
                 

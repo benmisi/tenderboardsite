@@ -57,4 +57,8 @@ class User extends Authenticatable
     public function subscription(){
         return $this->hasOne(subscription::class,'user_id','id');
     }
+
+    public function bidbonds(){
+        return $this->hasMany(bidbonds::class,'user_id','id');
+    }
 }

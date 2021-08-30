@@ -55,15 +55,61 @@
                         <td colspan="5" class="text-danger text-center">You do not have any procurement notices as yet</td>
                     </tr>
                 @endforelse
-                <tr>
-
-                </tr>
+               
             </tbody>
         </table>
     </div>
 </div>
    
+<div class="card mt-4">
+    <div class="card-header d-flex justify-content-between">
+        <h6>My Bid Bonds</h6>
+        <div class="d-flex">
+            <a href="{{route('bidbonds.create')}}" class="btn btn-primary ml-2">New Application</a>
+        </div>
+    </div>
+    <div class="card-body">
+    <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Entity</th>
+                    <th>Tender Number</th>
+                    <th>Applicant</th>
+                    <th>Status</th>
+                    <th>
 
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+            @forelse (Auth::user()->bidbonds as $bidbond )
+                <tr>
+                    <td>
+                        {{$bidbond->entity}}
+                    </td>
+                    <td>
+                        {{$bidbond->tendernumber}}
+                    </td>
+                    <td>
+                      {{$bidbond->company}}
+                    </td>                   
+                    <td>
+                        {{$bidbond->status}}
+                    </td>
+                    <td>
+                        <a href="{{route('bidbonds.show',$bidbond->id)}}" class="btn btn-sm btn-danger">Cancel</a>
+                    </td>
+                </tr>      
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-danger text-center">You do not have any bid bond applications yet</td>
+                    </tr>
+                @endforelse
+            </tbody>
+      </table>
+    </div>
+</div>
   
 
   

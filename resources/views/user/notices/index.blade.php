@@ -51,7 +51,7 @@
                         {{$procurement->closing_date}}
                     </td>
                     <td>
-                        <a href="{{route('procurement-notice.edit',$procurement->uuid)}}" class="btn btn-sm btn-primary">View</a>
+                        <a href="{{route('show-notice',$procurement->uuid)}}" class="btn btn-sm btn-primary">View</a>
                     </td>
                 </tr>      
                 @empty

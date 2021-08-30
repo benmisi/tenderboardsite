@@ -13,6 +13,7 @@ class prazitemController extends Controller
     public function __construct(prazapplicationRepository $praz)
     {
      $this->praz   = $praz;   
+     $this->middleware('auth');
     }
     public function index()
     {
